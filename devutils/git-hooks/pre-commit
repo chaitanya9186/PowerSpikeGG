@@ -15,6 +15,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../lib/bash/prompt.bash"
 PreCommit::GoChecks () {
     [ -z "$GOPATH" ] && Log::Failure "please install golang on workstation (\$GOPATH missing)"
 
+  exit 0
     # TODO(funkysayu) add go precommits
 }
 
