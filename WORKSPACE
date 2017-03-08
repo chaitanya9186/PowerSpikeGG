@@ -133,6 +133,12 @@ new_git_repository(
 load("@io_bazel_rules_go//go:def.bzl", "new_go_repository")
 
 new_go_repository(
+    name = "com_github_oleiade_lane",
+    commit = "3053869314bb02cb983dc2205da8ea2abe46fa96",
+    importpath = "github.com/oleiade/lane",
+)
+
+new_go_repository(
     name = "com_github_google_subcommands",
     commit = "43f65adde14103c0e32a37df5a4abfe7b19c7251",
     importpath = "github.com/google/subcommands",
@@ -410,10 +416,4 @@ maven_jar(
 maven_jar(
     name = "com_google_protobuf_protobuf_lite_3_0_1",
     artifact = "com.google.protobuf:protobuf-lite:jar:3.0.1",
-)
-
-new_go_repository(
-    name = "com_github_oleiade_lane",
-    commit = "3053869314bb02cb983dc2205da8ea2abe46fa96",
-    importpath = "github.com/oleiade/lane",
 )
