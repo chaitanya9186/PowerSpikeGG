@@ -37,11 +37,27 @@ git_repository(
     remote = "https://github.com/gengo/rules_pypi",
 )
 
+# Python packaging management
+# For packaging python
+git_repository(
+    name = "subpar",
+    commit = "74529f1df2178f07d34c72b3d270355dab2a10fc",
+    remote = "https://github.com/google/subpar",
+)
+
+# Bazel countineous integration
+git_repository(
+    name = "io_bazel_ci",
+    commit = "44f34b35cc23bbc403a4fcf255514d86a3bdf0ad",
+    remote = "https://github.com/bazelbuild/continuous-integration",
+)
+
 #
 # Development dependencies
 #
 
 # MongoDB dependency, used for test purpose.
+# TODO(funkysayu): Migrate this to docker if possible
 new_http_archive(
     name = "com_mongodb_linux_x86_64",
     build_file = "third_party/mongodb/archive.BUILD",
@@ -56,6 +72,22 @@ new_http_archive(
     sha256 = "b7910cd4c840b58b249c1c3d5320d64ff3b708ae49c4526ddf7abaa549449e7f",
     strip_prefix = "mongodb-osx-x86_64-3.4.1",
     url = "https://fastdl.mongodb.org/osx/mongodb-osx-x86_64-3.4.1.tgz",
+)
+
+#
+# Docker dependencies
+#
+
+load("@io_bazel_ci//base:docker_pull.bzl", "docker_pull")
+
+docker_pull(
+    name = "docker_debian",
+    tag = "debian",
+)
+
+docker_pull(
+    name = "docker_python3",
+    tag = "funkysayu/py3grpcio:1.1.3",
 )
 
 #
@@ -106,6 +138,14 @@ pypi_repository(
     pure = 1,
     srcs_version = "PY2AND3",
     version = "1.0.1",
+)
+
+pypi_repository(
+    name = "pydep_prometheus_client",
+    pkg = "prometheus_client",
+    pure = 1,
+    srcs_version = "PY2AND3",
+    version = "0.0.19",
 )
 
 pypi_repository(
@@ -412,44 +452,8 @@ maven_jar(
     artifact = "com.google.protobuf:protobuf-lite:jar:3.0.1",
 )
 
-maven_jar(
-    name = "com_typesafe_akka_akka_http_testkit_2_11_10_0_3",
-    artifact = "com.typesafe.akka:akka-http-testkit_2.11:jar:10.0.3",
-)
-
-maven_jar(
-    name = "com_typesafe_akka_akka_stream_testkit_2_11_2_4_16",
-    artifact = "com.typesafe.akka:akka-stream-testkit_2.11:jar:2.4.16",
-)
-
-maven_jar(
-    name = "com_typesafe_akka_akka_testkit_2_11_2_4_16",
-    artifact = "com.typesafe.akka:akka-testkit_2.11:jar:2.4.16",
-)
-
-maven_jar(
-    name = "org_scala_lang_scala_reflect_2_11_8",
-    artifact = "org.scala-lang:scala-reflect:jar:2.11.8",
-)
-
-maven_jar(
-    name = "org_scala_lang_modules_scala_xml_2_11_1_0_5",
-    artifact = "org.scala-lang.modules:scala-xml_2.11:jar:1.0.5",
-)
-
-maven_jar(
-    name = "org_scalactic_scalactic_2_11_3_0_1",
-    artifact = "org.scalactic:scalactic_2.11:jar:3.0.1",
-)
-
-maven_jar(
-    name = "org_scalatest_scalatest_2_11_3_0_1",
-    artifact = "org.scalatest:scalatest_2.11:jar:3.0.1",
-)
-
 new_go_repository(
     name = "com_github_oleiade_lane",
     commit = "3053869314bb02cb983dc2205da8ea2abe46fa96",
     importpath = "github.com/oleiade/lane",
 )
-
